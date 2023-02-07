@@ -40,7 +40,24 @@ The methods is run through a class called `Editor` which accomplishes three task
  - - [x] Custom function
  - - [ ] Handles incomplete groups of frames in schedule (e.g. when the total number of image slices at frame, f, is not equal to total number of videos)
 
-### Custom Frame Modification: (2)
+### Custom Frame Modificatier
+
+The class-method `Editor.modify` can take the argument `func=myCustomFunction`. The following block demonstrates custom function definition:
+
+```
+def myCustomFunction(frame:np.ndarray, id:int, ref:dict):
+    ...
+    return modified_image
+    
+editor = Editor(...)
+
+...
+
+ed.modify(func=myCustomFunction)
+```
+
+where `frame` is the (N, M, 3) RGB numpy array for NxM image, `id` is the video id of the frame for [0, 1, ..., P] videos, ref is a dictionary referencing `id` to path (`id[total]` can be called to fetch the total number of videos)
 
 
-The 
+### Custom Video Builder
+
