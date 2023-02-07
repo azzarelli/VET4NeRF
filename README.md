@@ -2,17 +2,22 @@
 
 This is a method for splicing videos which have been generated from AI/ML models. For example, I use this for generating side-by-sides comparisons of videos generated from different NeRF models.
 
+PRs accepted: Happy to make modifications/Accept methods (once there ar enough image modification/build methods, I will add a `utils/custom_modifiers.py` to share)
+
+
 ## Requirements
 
 Run `pip install opencv-ptyhon` (un-tested with `conda` envs) 
 
 ## Repo Status
+The only objective this repo has it to provide full control for editing together many videos
 
 - [x] Videos with same camera and path parameters (untested with variation durations/fps)
 - [x] Custom functions for splicing and building 
 - [x] Default vertical split and linear concatenation of N videos
 - [ ] Option for horizontal split
 - [ ] Option for transitioning vertical/horizontal split
+- [ ] Option to modify image parameters (global crop/filtering/etc.)
 
 ## Instructions for Execution
 
