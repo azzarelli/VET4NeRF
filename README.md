@@ -19,7 +19,7 @@ The only objective this repo has it to provide full control for editing together
 - [x] Videos with same camera and path parameters (untested with varying durations/fps)
 - [x] Custom functions for modifying and building 
 - [x] Default vertical split and linear concatenation of N videos
-- [ ] Option for horizontal split
+- [x] Option for horizontal split
 - [ ] Option for transitioning vertical/horizontal split
 - [ ] Option to modify image parameters (global crop/filtering/etc.)
 
@@ -72,17 +72,17 @@ where `frame` is the (N, M, 3) numpy array for NxM BGR image, `id` is the video 
 If you have a complex modification (e.g. transision effect), the concatenation process of pixels is going to be different (currently its a linear concatenation of pixels along the x in order of `id` value, low-to-high), so you may need to provide you own build function. To do this we call the class method `Editor.build` with arguments `func=myCustomBuildFunction` (you can also set the fps of the final video render). Argumens for the custom function are shown in the following code block.
 
 ```
-def myCustomBuildFunction(schedule):
+def myCustomBuildFunction(schedule, fps, ref):
     ...
-    [list of ordered frames] -> build_from_list(.)
+    return [list of ordered frames], fps, h, w
     
 ed = Editor(...)
 
 ...
 
-ed.build(func=myCustomBuildFunction)
+ed.build(func=myCustomBuildFunction, fps=[fps])
 ```
-where `schedule` is a dictionary referencing each frame in our global video timeline to a dict of modified images (format: `[slide id]:[img matrix]`).
+where `schedule` is a dictionary referencing each frame in our global video timeline to a dict of modified images (format: `[slide id]:[img matrix]`), `fps` is the desired fps and `ref` is a dictionary referencing `id` to path (`id[total]` can be called to fetch the total number of videos).
 
-To make you life easier - you may want to use the `build_from_list([list of images], [target fps], [img h], [img w])` function to build the final video file from a list of frames...
+Note: You can input your desired fps in the `ed.build` arg or pass define your own in the custom build function
 
