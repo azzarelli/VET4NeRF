@@ -18,8 +18,8 @@ The only objective this repo has it to provide full control for editing together
 - [x] Only tested on 'mp4'
 - [x] Videos with same camera and path parameters (untested with varying durations/fps)
 - [x] Custom functions for modifying and building 
-- [x] Default vertical split and linear concatenation of N videos
-- [x] Option for horizontal split
+- [x] Default (and universal) build option
+- [x] Option for horizontal and vertial split
 - [ ] Option for transitioning vertical/horizontal split
 - [ ] Option to modify image parameters (global crop/filtering/etc.)
 
@@ -39,14 +39,14 @@ The methods is run through a class called `Editor` which accomplishes three task
 (2) Pixel-wise modification of frame-images; this sifts through the frame-scheduler and modifies frames relative to:
 
 - - [x] Their 'slice-id' (images from the same video have the same slice id)
- - - [ ] Frame number (for transition effects)
- - - [x] Customisable modification
+- - [x] Customisable modification
+- - [ ] Frame number (for transition effects)
+
 
 (3) Builds video from schedule of modified images;
 
-- - [x] Default linear concatenation along the x-axis
- - - [x] Custom function
- - - [ ] Handles incomplete groups of frames in schedule (e.g. when the total number of image slices at frame, f, is not equal to total number of videos)
+- - [x] Default : Addition of Maksed image; this adds all images at time `t` in scheduler, where each images was masked (regions which we 'cut' are zeroed, hence we add the masked imaged to give us a complete image
+- - [x] Custom function
 
 ### Custom Frame Modification
 
@@ -64,12 +64,16 @@ ed = Editor(...)
 ed.modify(func=myCustomFunction)
 ```
 
-where `frame` is the (N, M, 3) numpy array for NxM BGR image, `id` is the video id of the frame for [0, 1, ..., P] videos, ref is a dictionary referencing `id` to path (`id[total]` can be called to fetch the total number of videos)
+where `frame` is the (N, M, 3) numpy array for NxM BGR image, `id` is the video id of the frame for [0, 1, ..., P] videos, ref is a dictionary referencing `id` to path (`id[total]` can be called to fetch the total number of videos).
+
+Note: The default function is an equally spaced vertical split, which masks (zeros) regions of pixels which we want to cut (e.g. if we had two frames, X and Y, (from seperate videos) present at a same time-point in the scheduler, we mask the right half of X and the left half of Y). This is done so that the default builder can simply add the masks to build the final image.
 
 
 ### Custom Video Builder
 
-If you have a complex modification (e.g. transision effect), the concatenation process of pixels is going to be different (currently its a linear concatenation of pixels along the x in order of `id` value, low-to-high), so you may need to provide you own build function. To do this we call the class method `Editor.build` with arguments `func=myCustomBuildFunction` (you can also set the fps of the final video render). Argumens for the custom function are shown in the following code block.
+If you have a complex modification (e.g. transision effect), the concatenation process of pixels may be different depednant on the format you return your custom image in, so you may need to provide you own build function. The default build function provides a universal modifications of image format discussed in the pior section. 
+
+To run this we call the class method `Editor.build` with arguments `func=myCustomBuildFunction` (you can also set the fps of the final video render). Argumens for the custom function are shown in the following code block.
 
 ```
 def myCustomBuildFunction(schedule, fps, ref):
@@ -83,6 +87,3 @@ ed = Editor(...)
 ed.build(func=myCustomBuildFunction, fps=[fps])
 ```
 where `schedule` is a dictionary referencing each frame in our global video timeline to a dict of modified images (format: `[slide id]:[img matrix]`), `fps` is the desired fps and `ref` is a dictionary referencing `id` to path (`id[total]` can be called to fetch the total number of videos).
-
-Note: You can input your desired fps in the `ed.build` arg or pass define your own in the custom build function
-
