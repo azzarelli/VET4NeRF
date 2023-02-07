@@ -1,4 +1,4 @@
-# Video Editing Tool for Visual Comparison of Many Videos (Customisable Method)  
+# Editing Tool for Side-by-Side Video Comparison (Customisable Method)  
 
 The ambition of this repo is to provide a simple but customisable pixel-wise video editor for visual comparison (side-by-side) of videos which have been rendered from AI/ML models. For example, I use this for generating side-by-sides comparisons of videos generated from different 3D models. 
 
