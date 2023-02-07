@@ -40,7 +40,7 @@ The methods is run through a class called `Editor` which accomplishes three task
  - - [x] Custom function
  - - [ ] Handles incomplete groups of frames in schedule (e.g. when the total number of image slices at frame, f, is not equal to total number of videos)
 
-### Custom Frame Modificatier
+### Custom Frame Modification
 
 The class-method `Editor.modify` can take the argument `func=myCustomFunction`. Argumens for the custom function are shown in the following code block.
 
