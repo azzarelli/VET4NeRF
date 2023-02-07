@@ -23,6 +23,6 @@ Note: This may take a while to load if the are many videos/they have high fps/du
 
   └&#x2611; Default vertical split and linear concatenation of N videos
   
-  └&#x2611;Option for horizontal split
+  └&#x2610;Option for horizontal split
   
-  └&#x2611; Transitioning vertical/horizontal split
+  └&#x2610; Transitioning vertical/horizontal split
