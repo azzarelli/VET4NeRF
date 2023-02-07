@@ -56,7 +56,7 @@ editor = Editor(...)
 ed.modify(func=myCustomFunction)
 ```
 
-where `frame` is the (N, M, 3) RGB numpy array for NxM image, `id` is the video id of the frame for [0, 1, ..., P] videos, ref is a dictionary referencing `id` to path (`id[total]` can be called to fetch the total number of videos)
+where `frame` is the (N, M, 3) numpy array for NxM BGR image, `id` is the video id of the frame for [0, 1, ..., P] videos, ref is a dictionary referencing `id` to path (`id[total]` can be called to fetch the total number of videos)
 
 
 ### Custom Video Builder
