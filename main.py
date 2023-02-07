@@ -17,5 +17,8 @@ if __name__ == '__main__':
     ed = Editor(path=vid_path)
     ed.generate_schedule()
     ed.modify(func=mod.horiz_split)
-    ed.build(func=bob.horiz_build)
+    ed.build()
+
+    # ed.modify(func=mod.horiz_split)
+    # ed.build(func=bob.horiz_build)
 
