@@ -5,6 +5,7 @@ from os.path import isfile, join
 import numpy as np
 from utils.helpers import get_duration, get_frames_fps
 
+
 # local video directory (place all videos you want to interlace into this folder)
 vid_path = 'movies/'
 

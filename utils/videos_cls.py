@@ -147,7 +147,7 @@ class Editor:
         print('Building video...')
         # Run custom build function from modified parts schedule
         if func != None:
-            func(self.p_schedule) # CREATE YOUR OWN (particularly if the videos have different fps and duration and if modifications are non-linear)
+            func(self.p_schedule, self.slice_ref, fps) # CREATE YOUR OWN (particularly if the videos have different fps and duration and if modifications are non-linear)
 
         # Otherwise build with simple concatenation (default x axis)
         else:
