@@ -42,7 +42,7 @@ The methods is run through a class called `Editor` which accomplishes three task
 
 ### Custom Frame Modificatier
 
-The class-method `Editor.modify` can take the argument `func=myCustomFunction`. The following block demonstrates custom function definition:
+The class-method `Editor.modify` can take the argument `func=myCustomFunction`. Argumens for the custom function are shown in the following code block.
 
 ```
 def myCustomFunction(frame:np.ndarray, id:int, ref:dict):
@@ -60,4 +60,21 @@ where `frame` is the (N, M, 3) numpy array for NxM BGR image, `id` is the video 
 
 
 ### Custom Video Builder
+
+If you have a complex modification (e.g. transision effect), the concatenation process of pixels is going to be different (currently its a linear concatenation of pixels along the x in order of `id` value, low-to-high), so you may need to provide you own build function. To do this we call the class method `Editor.build` with arguments `func=myCustomBuildFunction` (you can also set the fps of the final video render). Argumens for the custom function are shown in the following code block.
+
+```
+def myCustomBuildFunction(schedule):
+    ...
+    [list of ordered frames] -> build_from_list(.)
+    
+editor = Editor(...)
+
+...
+
+ed.build(func=myCustomBuildFunction)
+```
+where `schedule` is a dictionary referencing each frame in our global video timeline to a dict of modified images (format: `[slide id]:[img matrix]`).
+
+To make you life easier - you may want to use the `build_from_list([list of images], [target fps], [img h], [img w])` function to build the final video file from a list of frames.
 
