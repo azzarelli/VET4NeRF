@@ -27,12 +27,16 @@ Note: This may take a while to load if the are many videos/they have high fps/du
 The methods is run through a class called `Editor` which accomplishes three tasks: 
 
 (1) Build a frame-schedule; this finds the highest common factor of fps for all videos and saves where each frame from each video falls along the global timeline
+
 (2) Pixel-wise modification of frame-images; this sifts through the frame-scheduler and modifies frames relative to:
- - - [x] Their 'slice-id' (images from the same video have the same slice id)
+
+- - [x] Their 'slice-id' (images from the same video have the same slice id)
  - - [ ] Frame number (for transition effects)
  - - [x] Customisable modification
+
 (3) Builds video from schedule of modified images;
- - - [x] Default linear concatenation along the x-axis
+
+- - [x] Default linear concatenation along the x-axis
  - - [x] Custom function
  - - [ ] Handles incomplete groups of frames in schedule (e.g. when the total number of image slices at frame, f, is not equal to total number of videos)
 
