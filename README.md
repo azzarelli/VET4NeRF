@@ -27,7 +27,7 @@ The only objective this repo has it to provide full control for editing together
 1. Declare path to folder all containing videos in `main.py`
 2. Run `main.py`
 
-Note: This may take a while to load if the are many videos/they have high fps/duration
+Note: This may take a while to load if the are many videos/they have high fps/duration. (Working on `tdqm` loading for each phase)
 
 ## Instructions for Customisation
 ### Prelude
