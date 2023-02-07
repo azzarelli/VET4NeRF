@@ -1,4 +1,4 @@
-from utils.helpers import get_duration, get_frames_fps
+from utils.helpers import get_duration, get_frames_fps, build_from_list
 import cv2
 import numpy as np
 
@@ -184,15 +184,12 @@ class Editor:
                 img_ = np.concatenate(p_list, axis=1) # finalise new frame
                 
                 h,w = img_.shape[0], img_.shape[1] # get height and width of frame
-                im  = cv2.line(img_, (int(w/2), 0), (int(w/2), h), (255, 0, 0), thickness=2) # Add line splitting views
+
+                for i in range(self.slice_ref['total']):
+                    if i != self.slice_ref['total']-1:
+                        w_ = (w/self.slice_ref['total'])*(i+1)
+                        im  = cv2.line(img_, (int(w_), 0), (int(w_), h), (255, 0, 0), thickness=2) # Add line splitting views
 
                 imss.append(im)
 
-            print('Saving Video ...')
-
-            out = cv2.VideoWriter('render.mp4',cv2.VideoWriter_fourcc(*'MP4V'), self.hcf_fps, (w,h))
-
-            # Write open-cv frame-by-frame
-            for im in imss:
-                out.write(im)
-            out.release()
+            build_from_list(imss, fps, h, w)
