@@ -17,7 +17,7 @@ Note: This may take a while to load if the are many videos/they have high fps/du
 
 ## Repo Status
 
-- [x] Videos with same camera and path parameters
+- [x] Videos with same camera and path parameters (untested with variation durations/fps)
 
 - [x] Custom functions for splicing and building 
 
@@ -25,4 +25,4 @@ Note: This may take a while to load if the are many videos/they have high fps/du
   
 - [ ] Option for horizontal split
 
-- [ ] Transitioning vertical/horizontal split
+- [ ] Option for transitioning vertical/horizontal split
