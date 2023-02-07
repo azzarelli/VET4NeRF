@@ -1,5 +1,4 @@
-# VET4NeRF
-Splicing Video Renders for Visual Comparison (Customisable Method)  
+# Splicing Video Renders for Visual Comparison (Customisable Method)  
 
 This is a method for splicing videos which have been generated from AI/ML models. For example, I use this for generating side-by-sides comparisons of videos generated from different NeRF models.
 
