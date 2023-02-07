@@ -1,33 +1,15 @@
-from utils.helpers import get_duration, get_frames_fps, build_from_list
 import cv2
 import numpy as np
 
 from os import listdir
 from os.path import isfile, join
 
+from utils.helpers import get_duration, get_frames_fps, build_from_list
+from utils.custom_modifiers import vert_split
+from utils.custom_builders import default_build
+
 def get_video_paths(path):
-    return [join(path, f) for f in listdir(path) if (isfile(join(path, f))) and ('mp4' in f)]
-
-
-def vert_split(frame=None, id=None, ref=None):
-    """Example of custom vertical split function
-    """
-    if type(id) != type(None):
-        sl = ref[id] # get slice id
-        tot_sl = ref['total'] # get total slices
-
-        h,w = frame.shape[0], frame.shape[1] # get height and width of frame
-
-        idx_start = (float(sl)/float(tot_sl))*w # get start index and end index for vertical points
-        idx_end = ((float(sl)+1.)/float(tot_sl))*w
-        part = frame[:,int(idx_start):int(idx_end)] # slice (crop) frame matrix
-
-        return part
-        
-    else:
-        print('incorrect inputs')
-        exit()
-     
+    return [join(path, f) for f in listdir(path) if (isfile(join(path, f))) and ('mp4' in f)]     
 
 class Editor:
     def load_data(self, min_seconds:int=100000):
@@ -75,13 +57,6 @@ class Editor:
         """Generate frame-based schedule for pairing images
         """
         print('Generating Schedule...')
-        self.determine_frame_schedule()
-        self.fill_schedule_images()
-
-
-    def determine_frame_schedule(self):
-        """Determne the schedule for when each video frame (from each video) lands along the same timeline
-        """
         # Note which frames from which videos apear at time t in scheduler
         for obj in self.objects:
             path = obj # fetch the path
@@ -104,8 +79,8 @@ class Editor:
 
         self.f_schedule = {l:{} for l in list(self.t_schedule.keys())} # init frame schedule
 
-    def fill_schedule_images(self):
-        """Fill the image scheduler
+        print('Filling Schedule...')
+        """Fill the image scheduler with frames
         """
         for t_ in self.t_schedule:
             paths = self.t_schedule[t_]
@@ -118,7 +93,8 @@ class Editor:
                 _, frame = obj.read()
 
                 self.f_schedule[f'{t_}'][pth] = frame
-    
+
+
     def modify(self, func=vert_split):
         """Load in custom function for cropping/modifying frames
 
@@ -136,60 +112,19 @@ class Editor:
             for k_ in k:
                 sec = self.slice_ref[k_]
 
+                # Image Modification Function : returns image of slice in the format you want to build it in
                 im = func(frame=imgs[k_].copy(), id=k_, ref=self.slice_ref)
 
-                self.p_schedule[key][str(sec)] = im
+                self.p_schedule[key][str(sec)] = im # Save the images to parts-scheduler
         
-    def build(self, func:str=None, fps:int=0):
-        if fps == 0: fps =self.hcf_fps
+    def build(self, func=default_build, fps:int=0):
         """Build video
         """
+        if fps == 0: fps =self.hcf_fps
+
         print('Building video...')
+    
         # Run custom build function from modified parts schedule
-        if func != None:
-            func(self.p_schedule, self.slice_ref, fps) # CREATE YOUR OWN (particularly if the videos have different fps and duration and if modifications are non-linear)
+        res = func(self.p_schedule, self.slice_ref, fps) # CREATE YOUR OWN (particularly if the videos have different fps and duration and if modifications are non-linear)
 
-        # Otherwise build with simple concatenation (default x axis)
-        else:
-            imss = [] # init list of frames (final video with run at `self.hcf_fps` fps)
-
-            # Get schedule keys and sort frame-order (keys == frame number)
-            keys = [int(k) for k in list(self.p_schedule.keys())] # str-key -> int-key and sort from low->high
-            keys.sort()
-            # Loop through sorted keys
-            for key in keys:
-                parts = self.p_schedule[str(key)] # load all
-
-                '''ATTENTION - 
-                        The order (/method) of image concatenation is important!
-                    
-                    We have implemented a linear-concatenation along the x axis of the image,
-                    (e.g.) At each timepoint t in our parts schedule:
-                            GroupOfImgParts(time=t) = (ImagePart(slice_id=0), ImagePart(slice_id=1), ..., ImagePart(slice_id=N))
-                    we concatenate left-to-right in order of slice, which means the final image will place slice_id=0 on the left-
-                    most side of the video frame
-                
-                    This default because of the default (example) `vert-split` function
-                    
-                    TODO - Create base set of concatenation methods
-                '''
-
-                p_list = []
-                for i in range(1000):
-                    if str(i) in list(parts.keys()):
-                        p_list.append(parts[str(i)])
-                    else:
-                        break
-
-                img_ = np.concatenate(p_list, axis=1) # finalise new frame
-                
-                h,w = img_.shape[0], img_.shape[1] # get height and width of frame
-
-                for i in range(self.slice_ref['total']):
-                    if i != self.slice_ref['total']-1:
-                        w_ = (w/self.slice_ref['total'])*(i+1)
-                        im  = cv2.line(img_, (int(w_), 0), (int(w_), h), (255, 0, 0), thickness=2) # Add line splitting views
-
-                imss.append(im)
-
-            build_from_list(imss, fps, h, w)
+        build_from_list(*res) # build the file
