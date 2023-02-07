@@ -1,8 +1,10 @@
 # Splicing Video Renders for Visual Comparison (Customisable Method)  
 
-This is a method for splicing videos which have been generated from AI/ML models. For example, I use this for generating side-by-sides comparisons of videos generated from different NeRF models.
+The ambition of this repo is to provide a simple but customisable pixel-wise video editor for visual comparison (side-by-side) of videos which have been rendered from AI/ML models. For example, I use this for generating side-by-sides comparisons of videos generated from different 3D models. 
 
-PRs accepted: Happy to make modifications/Accept methods (once there ar enough image modification/build methods, I will add a `utils/custom_modifiers.py` to share)
+(Working on visual examples)
+
+PRs accepted: Happy to make modifications/accept methods -> once there are enough image modification/build methods, I will add a `utils/custom_modifiers.py` to share them.
 
 
 ## Requirements
@@ -12,6 +14,7 @@ Run `pip install opencv-ptyhon` (un-tested with `conda` envs)
 ## Repo Status
 The only objective this repo has it to provide full control for editing together many videos
 
+- [x] Only tested on 'mp4'
 - [x] Videos with same camera and path parameters (untested with variation durations/fps)
 - [x] Custom functions for splicing and building 
 - [x] Default vertical split and linear concatenation of N videos
@@ -53,7 +56,7 @@ def myCustomFunction(frame:np.ndarray, id:int, ref:dict):
     ...
     return modified_image
     
-editor = Editor(...)
+ed = Editor(...)
 
 ...
 
@@ -72,7 +75,7 @@ def myCustomBuildFunction(schedule):
     ...
     [list of ordered frames] -> build_from_list(.)
     
-editor = Editor(...)
+ed = Editor(...)
 
 ...
 
