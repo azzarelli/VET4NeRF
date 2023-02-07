@@ -76,5 +76,5 @@ ed.build(func=myCustomBuildFunction)
 ```
 where `schedule` is a dictionary referencing each frame in our global video timeline to a dict of modified images (format: `[slide id]:[img matrix]`).
 
-To make you life easier - you may want to use the `build_from_list([list of images], [target fps], [img h], [img w])` function to build the final video file from a list of frames.
+To make you life easier - you may want to use the `build_from_list([list of images], [target fps], [img h], [img w])` function to build the final video file from a list of frames...
 
