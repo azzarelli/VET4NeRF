@@ -17,8 +17,8 @@ Note: This may take a while to load if the are many videos/they have high fps/du
 
 ## Repo Status
 
- └&#x2611; Videos with same camera and path parameters
-- └ [x] Custom functions for splicing and building 
--   └ [x] Default vertical split and linear concatenation of N videos
--   └ [ ] Option for horizontal split
--   └ [ ] Transitioning vertical/horizontal split
+└&#x2611; Videos with same camera and path parameters
+└&#x2611; Custom functions for splicing and building 
+  └&#x2611; Default vertical split and linear concatenation of N videos
+  └&#x2611;Option for horizontal split
+  └&#x2611; Transitioning vertical/horizontal split
