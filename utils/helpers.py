@@ -17,3 +17,13 @@ def get_frames_fps(obj):
     frames = obj.get(cv2.CAP_PROP_FRAME_COUNT)
     fps = obj.get(cv2.CAP_PROP_FPS)
     return frames, fps
+
+def build_from_list(img_list, fps, h,w):
+    print('Saving Video ...')
+
+    out = cv2.VideoWriter('render.mp4',cv2.VideoWriter_fourcc(*'MP4V'), fps, (w,h))
+
+    # Write open-cv frame-by-frame
+    for im in img_list:
+        out.write(im)
+    out.release()
