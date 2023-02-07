@@ -15,8 +15,8 @@ Run `pip install opencv-ptyhon` (un-tested with `conda` envs)
 The only objective this repo has it to provide full control for editing together many videos
 
 - [x] Only tested on 'mp4'
-- [x] Videos with same camera and path parameters (untested with variation durations/fps)
-- [x] Custom functions for splicing and building 
+- [x] Videos with same camera and path parameters (untested with varying durations/fps)
+- [x] Custom functions for modifying and building 
 - [x] Default vertical split and linear concatenation of N videos
 - [ ] Option for horizontal split
 - [ ] Option for transitioning vertical/horizontal split
